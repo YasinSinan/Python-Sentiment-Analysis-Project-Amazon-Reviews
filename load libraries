@@ -1,0 +1,107 @@
+# -----------------------------
+# 1️⃣ Paketleri yükle
+# -----------------------------
+import sys
+import subprocess
+import os
+
+def install(package):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade", package])
+
+packages = ["nltk", "matplotlib", "seaborn", "ipykernel", "tqdm", "transformers", "torch", "scipy"]
+for pkg in packages:
+    try:
+        __import__(pkg)
+    except ImportError:
+        install(pkg)
+
+# -----------------------------
+# 2️⃣ NLTK veri setlerini indir
+# -----------------------------
+import nltk
+
+nltk_data_dir = os.path.expanduser("/opt/anaconda3/envs/py311_env/nltk_data")
+os.makedirs(nltk_data_dir, exist_ok=True)
+
+nltk_packages = [
+    "punkt",                       # word_tokenize
+    "averaged_perceptron_tagger",  # pos_tag
+    "stopwords",                    # stopwords
+    "wordnet",                      # lemmatization
+    "omw-1.4",                      # WordNet destek verisi
+    "maxent_ne_chunker_tab",        # NER için gerekli model
+    "words",                        # NER için kelime listesi
+    "vader_lexicon"                 # VADER sentiment analizi
+]
+
+for pkg in nltk_packages:
+    nltk.download(pkg, download_dir=nltk_data_dir, quiet=True)
+
+nltk.data.path.append(nltk_data_dir)
+
+# -----------------------------
+# 3️⃣ Kernel'i Jupyter'e ekle
+# -----------------------------
+kernel_name = "py311_env"
+display_name = "Python 3.11 (py311_env)"
+subprocess.check_call([
+    sys.executable, "-m", "ipykernel", "install", "--user",
+    "--name", kernel_name, "--display-name", display_name
+])
+
+# -----------------------------
+# 4️⃣ NLTK Test: POS + NER + VADER
+# -----------------------------
+from nltk.tokenize import word_tokenize
+from nltk import pos_tag, ne_chunk
+from nltk.sentiment import SentimentIntensityAnalyzer
+
+example = "Barack Obama was the 44th president of the United States."
+tokens = word_tokenize(example)
+tagged = pos_tag(tokens)
+entities = ne_chunk(tagged)
+
+print("Tokens:", tokens)
+print("POS tags:", tagged)
+print("Named Entities:")
+entities.pprint()
+
+sia = SentimentIntensityAnalyzer()
+sent_example = "I love ChatGPT! It's really helpful and amazing."
+scores = sia.polarity_scores(sent_example)
+print("\nText:", sent_example)
+print("Sentiment Scores:", scores)
+
+# -----------------------------
+# 5️⃣ Matplotlib + Seaborn Test
+# -----------------------------
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+
+# plt.plot([1,2,3],[4,5,6])
+# plt.title("Matplotlib Test")
+# plt.show()
+
+# sns.histplot([1,2,3,4,5])
+# plt.title("Seaborn Test")
+# plt.show()
+
+# -----------------------------
+# 6️⃣ Hugging Face Transformers Test
+# -----------------------------
+# from transformers import AutoTokenizer, AutoModelForSequenceClassification
+# from scipy.special import softmax
+
+# # Örnek Roberta modelini yükleme (Twitter sentiment)
+# model_name = "cardiffnlp/twitter-roberta-base-sentiment"
+# tokenizer = AutoTokenizer.from_pretrained(model_name)
+# model = AutoModelForSequenceClassification.from_pretrained(model_name)
+
+# text = "I love using Hugging Face Transformers!"
+# encoded_input = tokenizer(text, return_tensors='pt')
+# output = model(**encoded_input).logits
+# scores = softmax(output.detach().numpy())
+# print("\nText:", text)
+# print("Transformers Sentiment Scores:", scores)
+
+# print("\nTüm paketler, veri setleri, POS, NER, VADER ve Transformers hazır! ✅")
