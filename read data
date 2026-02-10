@@ -1,0 +1,11 @@
+import pandas as pd
+#Read data
+df = pd.read_csv('/Users/yasinsinan/IT/Reviews.csv')
+print(df.shape)
+df=df.head(500)
+print(df.shape)
+
+
+df['Text'].values[0]
+
+df.head()
