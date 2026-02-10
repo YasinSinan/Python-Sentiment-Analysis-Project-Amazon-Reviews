@@ -1,0 +1,12 @@
+#VADER
+
+from nltk.sentiment import SentimentIntensityAnalyzer
+from tqdm import tqdm
+
+sia = SentimentIntensityAnalyzer()
+
+
+sia.polarity_scores(' I am so happy')
+
+sia.polarity_scores('This is the worst thing ever')
+sia.polarity_scores(example)
