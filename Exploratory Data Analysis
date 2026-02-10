@@ -1,0 +1,10 @@
+#EDA 
+df['Score'].value_counts().sort_index()
+
+
+ax=df['Score'].value_counts().sort_index()\
+    .plot(kind='bar', 
+        title='Count of rewievs by stars', 
+        figsize=(10,5))
+ax.set_xlabel('Review Stars')
+plt.show()
