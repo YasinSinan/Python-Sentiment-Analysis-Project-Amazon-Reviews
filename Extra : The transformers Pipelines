@@ -1,0 +1,18 @@
+#Extra : The transformers Pipelines
+from transformers import pipeline
+
+sent_pipeline = pipeline("sentiment-analysis")
+
+
+
+sent_pipeline('I love sentiment analyses')
+
+
+
+sent_pipeline('Make sure to like and subscribe!')
+
+
+sent_pipeline('Booo')
+
+
+#THE END#
