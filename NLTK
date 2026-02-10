@@ -1,3 +1,22 @@
 #Basic NLTK
 example=df['Text'][50]
 print(example)
+
+
+nltk.word_tokenize(example)
+
+
+
+tokens=nltk.word_tokenize(example)
+tokens[:10]
+
+
+
+nltk.pos_tag(tokens)
+
+tagged=nltk.pos_tag(tokens)
+tagged[:10]
+
+
+entities=nltk.chunk.ne_chunk(tagged)
+entities.pprint()
