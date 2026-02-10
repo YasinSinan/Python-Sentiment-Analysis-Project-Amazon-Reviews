@@ -1,0 +1,22 @@
+##Compare Scores between Models
+results_df.columns
+
+
+
+sns.pairplot(data=results_df,
+            vars=['vader_neg', 'vader_neu', 'vader_pos','roberta_neg', 'roberta_neu', 'roberta_pos'],
+            hue='Score',
+            palette='tab10')
+plt.show()
+
+
+
+
+
+#Review Example
+results_df.query('Score ** 1')\
+    .sort_values('roberta_pos', ascending=False)['Text'].values[0]
+
+
+results_df.query('Score ** 2')\
+    .sort_values('roberta_neg', ascending=False)['Text'].values[0]
